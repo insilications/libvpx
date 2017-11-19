@@ -1,6 +1,6 @@
 Name     : libvpx
 Version  : 1.6.1
-Release  : 2
+Release  : 3
 URL      : https://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.6.1.tar.bz2
 Source0  : https://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.6.1.tar.bz2
 Summary  : No detailed summary available
