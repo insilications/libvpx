@@ -1,0 +1,33 @@
+--- libvpx-1.6.1/build/make/configure.sh~	2017-11-15 15:04:06.418508070 +0000
++++ libvpx-1.6.1/build/make/configure.sh	2017-11-15 15:34:37.624196917 +0000
+@@ -596,7 +596,7 @@
+         show_help
+         ;;
+       *)
+-        die_unknown $opt
++#        die_unknown $opt
+         ;;
+     esac
+   done
+@@ -750,8 +750,8 @@
+ 
+   toolchain=${toolchain:-generic-gnu}
+ 
+-  is_in ${toolchain} ${all_platforms} || enabled force_toolchain \
+-    || die "Unrecognized toolchain '${toolchain}'"
++#  is_in ${toolchain} ${all_platforms} || enabled force_toolchain \
++#    || die "Unrecognized toolchain '${toolchain}'"
+ 
+   enabled child || log_echo "Configuring for target '${toolchain}'"
+ 
+--- libvpx-1.6.1/build/make/configure.sh~	2017-11-16 03:28:41.000000000 +0000
++++ libvpx-1.6.1/build/make/configure.sh	2017-11-19 02:00:23.760127039 +0000
+@@ -1258,7 +1258,7 @@
+         case "${AS}" in
+           auto|"")
+             which nasm >/dev/null 2>&1 && AS=nasm
+-            which yasm >/dev/null 2>&1 && AS=yasm
++            which yasm >/dev/null 2>&1 && AS="yasm -a x86  -f elf64"
+             if [ "${AS}" = nasm ] ; then
+               # Apple ships version 0.98 of nasm through at least Xcode 6. Revisit
+               # this check if they start shipping a compatible version.
