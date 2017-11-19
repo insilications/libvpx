@@ -53,6 +53,7 @@ export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
 export SOURCE_DATE_EPOCH=1511059944
+export CFLAGS="$CFLAGS -O3 -flto=8 -falign-functions=32 -ffat-lto-objects -fno-semantic-interposition"
 ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io
 
 make  %{?_smp_mflags} V=1
