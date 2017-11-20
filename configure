@@ -1,1 +1,1 @@
---target=x86_64-linux-gnu --enable-static
+|| : ; ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io
