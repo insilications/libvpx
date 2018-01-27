@@ -4,7 +4,7 @@
 #
 Name     : libvpx
 Version  : 1.7.0
-Release  : 6
+Release  : 7
 URL      : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Source0  : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Summary  : No detailed summary available
@@ -59,12 +59,16 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1517070225
+export SOURCE_DATE_EPOCH=1517070904
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 %configure --disable-static || : ; ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io
 make  %{?_smp_mflags} V=1 AS_FLAGS="-a AMD64"
 
 %install
-export SOURCE_DATE_EPOCH=1517070225
+export SOURCE_DATE_EPOCH=1517070904
 rm -rf %{buildroot}
 %make_install
 
