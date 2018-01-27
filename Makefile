@@ -1,5 +1,5 @@
 PKG_NAME := libvpx
-URL = https://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.6.1.tar.bz2
-
+URL = https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
+ARCHIVES = 
 
 include ../common/Makefile.common
