@@ -4,7 +4,7 @@
 #
 Name     : libvpx
 Version  : 1.7.0
-Release  : 7
+Release  : 8
 URL      : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Source0  : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Summary  : No detailed summary available
