@@ -4,7 +4,7 @@
 #
 Name     : libvpx
 Version  : 1.7.0
-Release  : 10
+Release  : 11
 URL      : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Source0  : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Summary  : No detailed summary available
@@ -70,16 +70,16 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530991811
+export SOURCE_DATE_EPOCH=1530994042
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-%configure --disable-static || : ; CC=gcc CXX=g++ AR=ar STRIP=strip NM=nm ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io
+%configure --disable-static || : ; CC=gcc CXX=g++ AR=ar STRIP=strip NM=nm ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io --enable-experimental --enable-spatial-svc
 make  %{?_smp_mflags} V=1 AS_FLAGS="-a AMD64"
 
 %install
-export SOURCE_DATE_EPOCH=1530991811
+export SOURCE_DATE_EPOCH=1530994042
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/libvpx
 cp LICENSE %{buildroot}/usr/share/doc/libvpx/LICENSE
@@ -98,6 +98,7 @@ cp third_party/googletest/src/LICENSE %{buildroot}/usr/share/doc/libvpx/third_pa
 
 %files dev
 %defattr(-,root,root,-)
+/usr/include/vpx/svc_context.h
 /usr/include/vpx/vp8.h
 /usr/include/vpx/vp8cx.h
 /usr/include/vpx/vp8dx.h

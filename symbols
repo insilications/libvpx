@@ -35,3 +35,9 @@ libvpx.so.5:vpx_img_flip
 libvpx.so.5:vpx_img_free
 libvpx.so.5:vpx_img_set_rect
 libvpx.so.5:vpx_img_wrap
+libvpx.so.5:vpx_svc_dump_statistics
+libvpx.so.5:vpx_svc_encode
+libvpx.so.5:vpx_svc_get_message
+libvpx.so.5:vpx_svc_init
+libvpx.so.5:vpx_svc_release
+libvpx.so.5:vpx_svc_set_options
