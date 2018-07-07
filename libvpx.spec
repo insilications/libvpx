@@ -4,7 +4,7 @@
 #
 Name     : libvpx
 Version  : 1.7.0
-Release  : 9
+Release  : 10
 URL      : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Source0  : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Summary  : No detailed summary available
@@ -12,6 +12,7 @@ Group    : Development/Tools
 License  : BSD-3-Clause HPND
 Requires: libvpx-bin
 Requires: libvpx-lib
+Requires: libvpx-license
 BuildRequires : nasm
 BuildRequires : yasm
 Patch1: build.patch
@@ -26,6 +27,7 @@ the application.
 %package bin
 Summary: bin components for the libvpx package.
 Group: Binaries
+Requires: libvpx-license
 
 %description bin
 bin components for the libvpx package.
@@ -45,9 +47,18 @@ dev components for the libvpx package.
 %package lib
 Summary: lib components for the libvpx package.
 Group: Libraries
+Requires: libvpx-license
 
 %description lib
 lib components for the libvpx package.
+
+
+%package license
+Summary: license components for the libvpx package.
+Group: Default
+
+%description license
+license components for the libvpx package.
 
 
 %prep
@@ -59,17 +70,22 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1517070904
+export SOURCE_DATE_EPOCH=1530991811
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-%configure --disable-static || : ; ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io
+%configure --disable-static || : ; CC=gcc CXX=g++ AR=ar STRIP=strip NM=nm ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io
 make  %{?_smp_mflags} V=1 AS_FLAGS="-a AMD64"
 
 %install
-export SOURCE_DATE_EPOCH=1517070904
+export SOURCE_DATE_EPOCH=1530991811
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/libvpx
+cp LICENSE %{buildroot}/usr/share/doc/libvpx/LICENSE
+cp third_party/x86inc/LICENSE %{buildroot}/usr/share/doc/libvpx/third_party_x86inc_LICENSE
+cp third_party/libwebm/LICENSE.TXT %{buildroot}/usr/share/doc/libvpx/third_party_libwebm_LICENSE.TXT
+cp third_party/googletest/src/LICENSE %{buildroot}/usr/share/doc/libvpx/third_party_googletest_src_LICENSE
 %make_install
 
 %files
@@ -99,3 +115,10 @@ rm -rf %{buildroot}
 /usr/lib64/libvpx.so.5
 /usr/lib64/libvpx.so.5.0
 /usr/lib64/libvpx.so.5.0.0
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/libvpx/LICENSE
+/usr/share/doc/libvpx/third_party_googletest_src_LICENSE
+/usr/share/doc/libvpx/third_party_libwebm_LICENSE.TXT
+/usr/share/doc/libvpx/third_party_x86inc_LICENSE
