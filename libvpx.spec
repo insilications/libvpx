@@ -4,7 +4,7 @@
 #
 Name     : libvpx
 Version  : 1.7.0
-Release  : 11
+Release  : 12
 URL      : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Source0  : https://github.com/webmproject/libvpx/archive/v1.7.0.tar.gz
 Summary  : No detailed summary available
@@ -64,28 +64,59 @@ license components for the libvpx package.
 %prep
 %setup -q -n libvpx-1.7.0
 %patch1 -p1
+pushd ..
+cp -a libvpx-1.7.0 buildavx2
+popd
+pushd ..
+cp -a libvpx-1.7.0 buildavx512
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530994042
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export SOURCE_DATE_EPOCH=1531193367
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 %configure --disable-static || : ; CC=gcc CXX=g++ AR=ar STRIP=strip NM=nm ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io --enable-experimental --enable-spatial-svc
 make  %{?_smp_mflags} V=1 AS_FLAGS="-a AMD64"
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=haswell"
+export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+%configure --disable-static || : ; CC=gcc CXX=g++ AR=ar STRIP=strip NM=nm ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io --enable-experimental --enable-spatial-svc   --libdir=/usr/lib64/haswell
+make  %{?_smp_mflags} V=1 AS_FLAGS="-a AMD64"
+popd
+unset PKG_CONFIG_PATH
+pushd ../buildavx512/
+export CFLAGS="$CFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
+export CXXFLAGS="$CXXFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
+export LDFLAGS="$LDFLAGS -m64 -march=skylake-avx512"
+%configure --disable-static || : ; CC=gcc CXX=g++ AR=ar STRIP=strip NM=nm ./configure --prefix=/usr --libdir=/usr/lib64 --target=x86_64-linux-gnu --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-shared --enable-webm-io --enable-experimental --enable-spatial-svc   --libdir=/usr/lib64/haswell/avx512_1 --bindir=/usr/bin/haswell/avx512_1
+make  %{?_smp_mflags} V=1 AS_FLAGS="-a AMD64"
+popd
 %install
-export SOURCE_DATE_EPOCH=1530994042
+export SOURCE_DATE_EPOCH=1531193367
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/libvpx
 cp LICENSE %{buildroot}/usr/share/doc/libvpx/LICENSE
 cp third_party/x86inc/LICENSE %{buildroot}/usr/share/doc/libvpx/third_party_x86inc_LICENSE
 cp third_party/libwebm/LICENSE.TXT %{buildroot}/usr/share/doc/libvpx/third_party_libwebm_LICENSE.TXT
 cp third_party/googletest/src/LICENSE %{buildroot}/usr/share/doc/libvpx/third_party_googletest_src_LICENSE
+pushd ../buildavx2/
+%make_install
+popd
+pushd ../buildavx512/
+%make_install
+popd
 %make_install
 
 %files
@@ -108,11 +139,19 @@ cp third_party/googletest/src/LICENSE %{buildroot}/usr/share/doc/libvpx/third_pa
 /usr/include/vpx/vpx_frame_buffer.h
 /usr/include/vpx/vpx_image.h
 /usr/include/vpx/vpx_integer.h
+/usr/lib64/haswell/libvpx.so
 /usr/lib64/libvpx.so
 /usr/lib64/pkgconfig/vpx.pc
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/avx512_1/libvpx.so
+/usr/lib64/haswell/avx512_1/libvpx.so.5
+/usr/lib64/haswell/avx512_1/libvpx.so.5.0
+/usr/lib64/haswell/avx512_1/libvpx.so.5.0.0
+/usr/lib64/haswell/libvpx.so.5
+/usr/lib64/haswell/libvpx.so.5.0
+/usr/lib64/haswell/libvpx.so.5.0.0
 /usr/lib64/libvpx.so.5
 /usr/lib64/libvpx.so.5.0
 /usr/lib64/libvpx.so.5.0.0
