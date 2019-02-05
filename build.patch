@@ -31,3 +31,56 @@
              if [ "${AS}" = nasm ] ; then
                # Apple ships version 0.98 of nasm through at least Xcode 6. Revisit
                # this check if they start shipping a compatible version.
+--- libvpx-1.8.0/build/make/Makefile~	2019-02-04 17:02:33.000000000 +0000
++++ libvpx-1.8.0/build/make/Makefile	2019-02-05 14:29:13.758991135 +0000
+@@ -68,6 +68,7 @@
+ CFLAGS+=-I$(BUILD_PFX)$(BUILD_ROOT) -I$(SRC_PATH)
+ CXXFLAGS+=-I$(BUILD_PFX)$(BUILD_ROOT) -I$(SRC_PATH)
+ ASFLAGS+=-I$(BUILD_PFX)$(BUILD_ROOT)/ -I$(SRC_PATH)/
++LDFLAGS+=-lpthread
+ DIST_DIR?=dist
+ HOSTCC?=gcc
+ TGT_ISA:=$(word 1, $(subst -, ,$(TOOLCHAIN)))
+--- libvpx-1.8.0/libs.mk~	2019-02-04 17:02:33.000000000 +0000
++++ libvpx-1.8.0/libs.mk	2019-02-05 14:32:59.594987991 +0000
+@@ -270,7 +270,7 @@
+                            $(notdir $(LIBVPX_SO_SYMLINKS)) \
+                            $(if $(LIBVPX_SO_IMPLIB), $(BUILD_PFX)$(LIBVPX_SO_IMPLIB))
+ $(BUILD_PFX)$(LIBVPX_SO): $(LIBVPX_OBJS) $(EXPORT_FILE)
+-$(BUILD_PFX)$(LIBVPX_SO): extralibs += -lm
++$(BUILD_PFX)$(LIBVPX_SO): extralibs += -lm -lpthread
+ $(BUILD_PFX)$(LIBVPX_SO): SONAME = libvpx.so.$(SO_VERSION_MAJOR)
+ $(BUILD_PFX)$(LIBVPX_SO): EXPORTS_FILE = $(EXPORT_FILE)
+ 
+@@ -321,11 +321,11 @@
+ 	$(qexec)echo 'Version: $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)' >> $@
+ 	$(qexec)echo 'Requires:' >> $@
+ 	$(qexec)echo 'Conflicts:' >> $@
+-	$(qexec)echo 'Libs: -L$${libdir} -lvpx -lm' >> $@
++	$(qexec)echo 'Libs: -L$${libdir} -lvpx -lm -lpthread' >> $@
+ ifeq ($(HAVE_PTHREAD_H),yes)
+ 	$(qexec)echo 'Libs.private: -lm -lpthread' >> $@
+ else
+-	$(qexec)echo 'Libs.private: -lm' >> $@
++	$(qexec)echo 'Libs.private: -lm -lpthread' >> $@
+ endif
+ 	$(qexec)echo 'Cflags: -I$${includedir}' >> $@
+ INSTALL-LIBS-yes += $(LIBSUBDIR)/pkgconfig/vpx.pc
+@@ -515,7 +515,7 @@
+ $(LIBVPX_TEST_BIN): $(TEST_LIBS)
+ $(eval $(call linkerxx_template,$(LIBVPX_TEST_BIN), \
+               $(LIBVPX_TEST_OBJS) \
+-              -L. -lvpx -lgtest $(extralibs) -lm))
++              -L. -lvpx -lgtest $(extralibs) -lm -lpthread))
+ 
+ ifneq ($(strip $(TEST_INTRA_PRED_SPEED_OBJS)),)
+ $(TEST_INTRA_PRED_SPEED_OBJS) $(TEST_INTRA_PRED_SPEED_OBJS:.o=.d): CXXFLAGS += $(GTEST_INCLUDES)
+@@ -525,7 +525,7 @@
+ $(TEST_INTRA_PRED_SPEED_BIN): $(TEST_LIBS)
+ $(eval $(call linkerxx_template,$(TEST_INTRA_PRED_SPEED_BIN), \
+               $(TEST_INTRA_PRED_SPEED_OBJS) \
+-              -L. -lvpx -lgtest $(extralibs) -lm))
++              -L. -lvpx -lgtest $(extralibs) -lm -lpthread))
+ endif  # TEST_INTRA_PRED_SPEED
+ 
+ endif  # CONFIG_UNIT_TESTS
