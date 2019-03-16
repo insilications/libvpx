@@ -4,7 +4,7 @@
 #
 Name     : libvpx
 Version  : 1.8.0
-Release  : 15
+Release  : 16
 URL      : https://github.com/webmproject/libvpx/archive/v1.8.0.tar.gz
 Source0  : https://github.com/webmproject/libvpx/archive/v1.8.0.tar.gz
 Summary  : VP8 and VP9 codec
