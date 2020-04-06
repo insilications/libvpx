@@ -4,7 +4,7 @@
 #
 Name     : libvpx
 Version  : 1.8.1
-Release  : 18
+Release  : 19
 URL      : https://github.com/webmproject/libvpx/archive/v1.8.1.tar.gz
 Source0  : https://github.com/webmproject/libvpx/archive/v1.8.1.tar.gz
 Summary  : No detailed summary available
