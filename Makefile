@@ -1,5 +1,5 @@
 PKG_NAME := libvpx
-URL = https://github.com/webmproject/libvpx/archive/v1.8.1.tar.gz
+URL = https://chromium.googlesource.com/webm/libvpx
 ARCHIVES = 
 
 include ../common/Makefile.common

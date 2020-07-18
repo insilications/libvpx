@@ -1,0 +1,1 @@
+VERBOSE=1 V=1 LIBVPX_TEST_DATA_PATH=test_download/ make %{?_smp_mflags} test
