@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libvpx
 Version  : 1.8.2
-Release  : 32
+Release  : 33
 URL      : file:///insilications/build/clearlinux/packages/libvpx/libvpx-v1.8.2.zip
 Source0  : file:///insilications/build/clearlinux/packages/libvpx/libvpx-v1.8.2.zip
 Summary  : No detailed summary available
@@ -14,15 +14,9 @@ License  : BSD-3-Clause
 Requires: libvpx-bin = %{version}-%{release}
 Requires: libvpx-lib = %{version}-%{release}
 BuildRequires : buildreq-configure
-BuildRequires : ca-certs
-BuildRequires : ca-certs-static
-BuildRequires : coreutils
-BuildRequires : curl
-BuildRequires : curl-dev
+BuildRequires : findutils
 BuildRequires : nasm
 BuildRequires : nasm-bin
-BuildRequires : openssl
-BuildRequires : openssl-dev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
@@ -77,20 +71,20 @@ cd %{_builddir}/libvpx-v1.8.2
 
 %build
 ## build_prepend content
-find . -type f -name 'configure*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name '*.ac' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name 'libtool*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name '*.m4' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name '*.mk' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name '*.sh' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-echo "AM_MAINTAINER_MODE([disable])" >> configure.ac
-find . -type f -name 'config.status' -exec touch {} \;
+#find . -type f -name 'configure*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name '*.ac' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name 'libtool*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name '*.m4' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name '*.mk' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name '*.sh' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#echo "AM_MAINTAINER_MODE([disable])" >> configure.ac
+#find . -type f -name 'config.status' -exec touch {} \;
 ## build_prepend end
 unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595070579
+export SOURCE_DATE_EPOCH=1596928991
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -112,19 +106,20 @@ export RANLIB=gcc-ranlib
 export NM=gcc-nm
 #export CCACHE_DISABLE=1
 ## altflags1 end
-%configure  || : ; ./configure --prefix=/usr --libdir=/usr/lib64 --enable-shared --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-webm-io --as=nasm --disable-avx512 --enable-multithread --enable-postproc --enable-vp9-postproc --enable-multi-res-encoding --enable-realtime-only --enable-onthefly-bitpacking --enable-vp9-highbitdepth --enable-better-hw-compatibility --enable-experimental --enable-libyuv --enable-tools --enable-optimizations --cpu=native --disable-unit-tests --enable-error-concealment
+%configure || : ; ./configure --prefix=/usr --libdir=/usr/lib64 --enable-shared --enable-static --enable-libs --enable-vp8 --enable-vp9 --enable-webm-io --as=nasm --disable-avx512 --enable-multithread --enable-postproc --enable-vp9-postproc --enable-multi-res-encoding --enable-realtime-only --enable-onthefly-bitpacking --enable-vp9-highbitdepth --enable-better-hw-compatibility --enable-experimental --enable-libyuv --enable-tools --enable-optimizations --cpu=native --disable-unit-tests --enable-error-concealment
 ## make_prepend content
-find . -type f -name 'Makefile*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name 'configure*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name 'libtool*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name '*.mk' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name '*.sh' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name 'config.status' -exec touch {} \;
+#find . -type f -name 'Makefile*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name 'configure*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name 'libtool*' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name '*.mk' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name '*.sh' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name 'config.status' -exec touch {} \;
 ## make_prepend end
 make  %{?_smp_mflags}  V=1 VERBOSE=1
 
+
 %install
-export SOURCE_DATE_EPOCH=1595070579
+export SOURCE_DATE_EPOCH=1596928991
 rm -rf %{buildroot}
 %make_install
 
