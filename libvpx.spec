@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : libvpx
-Version  : 1.9.0
-Release  : 34
-URL      : file:///insilications/build/clearlinux/packages/libvpx/libvpx-v1.9.0.tar.gz
-Source0  : file:///insilications/build/clearlinux/packages/libvpx/libvpx-v1.9.0.tar.gz
+Version  : 1.9
+Release  : 35
+URL      : file:///insilications/build/clearlinux/packages/libvpx/libvpx-v1.9.tar.gz
+Source0  : file:///insilications/build/clearlinux/packages/libvpx/libvpx-v1.9.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -85,7 +85,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1599711715
+export SOURCE_DATE_EPOCH=1600337855
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -133,7 +133,7 @@ make  %{?_smp_mflags}  V=1 VERBOSE=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1599711715
+export SOURCE_DATE_EPOCH=1600337855
 rm -rf %{buildroot}
 %make_install
 
