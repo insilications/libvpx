@@ -1,0 +1,5 @@
+install -dm 0755 %{buildroot}/usr/lib64/haswell/
+install -dm 0755 %{buildroot}/usr/bin/haswell/
+cp --archive libvpx.so* %{buildroot}/usr/lib64/haswell/
+cp --archive vpxdec %{buildroot}/usr/bin/haswell/
+cp --archive vpxenc %{buildroot}/usr/bin/haswell/

@@ -89,7 +89,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1620604050
+export SOURCE_DATE_EPOCH=1620604259
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -169,15 +169,24 @@ make  %{?_smp_mflags}  AS_FLAGS="-a AMD64" V=1 VERBOSE=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1620604050
+export SOURCE_DATE_EPOCH=1620604259
 rm -rf %{buildroot}
 %make_install
+## install_append content
+install -dm 0755 %{buildroot}/usr/lib64/haswell/
+install -dm 0755 %{buildroot}/usr/bin/haswell/
+cp --archive libvpx.so* %{buildroot}/usr/lib64/haswell/
+cp --archive vpxdec %{buildroot}/usr/bin/haswell/
+cp --archive vpxenc %{buildroot}/usr/bin/haswell/
+## install_append end
 
 %files
 %defattr(-,root,root,-)
 
 %files bin
 %defattr(-,root,root,-)
+/usr/bin/haswell/vpxdec
+/usr/bin/haswell/vpxenc
 /usr/bin/vpxdec
 /usr/bin/vpxenc
 
@@ -193,11 +202,15 @@ rm -rf %{buildroot}
 /usr/include/vpx/vpx_frame_buffer.h
 /usr/include/vpx/vpx_image.h
 /usr/include/vpx/vpx_integer.h
+/usr/lib64/haswell/libvpx.so
 /usr/lib64/libvpx.so
 /usr/lib64/pkgconfig/vpx.pc
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libvpx.so.6
+/usr/lib64/haswell/libvpx.so.6.4
+/usr/lib64/haswell/libvpx.so.6.4.0
 /usr/lib64/libvpx.so.6
 /usr/lib64/libvpx.so.6.4
 /usr/lib64/libvpx.so.6.4.0
