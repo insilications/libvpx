@@ -1,0 +1,27 @@
+./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib64 \
+    --target=x86_64-linux-gnu \
+    --enable-runtime-cpu-detect \
+    --enable-shared \
+    --enable-static \
+    --enable-libs \
+    --enable-vp8 \
+    --enable-vp9 \
+    --enable-webm-io \
+    --disable-avx512 \
+    --enable-multithread \
+    --enable-postproc \
+    --enable-vp9-postproc \
+    --enable-multi-res-encoding \
+    --enable-realtime-only \
+    --enable-onthefly-bitpacking \
+    --enable-vp9-highbitdepth \
+    --enable-better-hw-compatibility \
+    --enable-experimental \
+    --enable-libyuv \
+    --enable-tools \
+    --enable-optimizations \
+    --cpu=native \
+    --disable-unit-tests \
+    --enable-error-concealment

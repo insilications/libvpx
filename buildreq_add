@@ -3,3 +3,5 @@
 nasm
 nasm-bin
 findutils
+yasm
+yasm-bin
